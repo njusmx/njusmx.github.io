@@ -1,0 +1,61 @@
+h2.signIn{
+  margin-top: 20px;
+  margin-bottom: 0px;
+  color: #fff;
+  font-size: 23px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  font
+}
+
+h1{
+  padding-top: 50px!important;
+}
+
+form.signup {
+  margin-top: 15px!important; 
+}
+
+.form-control{
+  margin-bottom: 12px;
+}
+
+input{
+  width:255px!important;
+}
+
+input[type="checkbox"]{
+  width:25px!important;
+}
+
+button{
+  margin-right: 15px;
+  margin-bottom: 15px!important;
+}
+
+#header{
+  /*padding: 100px!important;*/
+  padding-bottom: 40px!important;
+}
+
+.btnm{
+  margin-left: 128px!important;
+}
+
+.form-inline .checkbox label {
+    padding-left: 0!important;
+}
+
+label{
+  color: #fff;
+  font-weight:100!important; 
+  margin-bottom: 7px!important;
+}
+
+#forgetpasswordBG{
+  background: url(../img/main-bg.jpg) no-repeat center top;
+}
+
+#forgetpasswordMarginBot{
+  margin-bottom: 450px;
+}
