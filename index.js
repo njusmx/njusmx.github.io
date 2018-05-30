@@ -1,5 +1,5 @@
 "use strict"
-    var dappAddress = "n1m7kgwj7f2bGkNKGP5P1eFuNacbD7SfKvK";
+    var dappAddress = "n1ruE8QEwX6Rvc5LBtAwLFrK4YTQWZgATnM";
     var nebulas = require("nebulas"),
         Account = nebulas.Account,
         neb = new nebulas.Neb();
@@ -41,8 +41,9 @@
             $(".result_success").addClass("hide");
 
             $("#book_name").val("");
-            $("#book_author").val("")
-            $("#book_rate").val("")
+            $("#book_author").val("");
+            $("#book_rate").val("");
+            $("#book_download").val(""); $("#book_download").val("")
             $("#book_description").val("");
         } else{
             //if result is not null, then it should be "return value" or "error message"
@@ -60,6 +61,7 @@
                 $("#book_name_p").text("Book Name: " + result.key)
                 $("#book_author_p").text("Author: " + result.writer)
                 $("#book_rate_p").text("Rate: " + result.rate)
+                $("#book_download_p").val("Download Address: " + result.linkAddress)
                 $("#book_description_p").text(result.description);
                 $("#book_contributor_p").text("Contributed By: " + result.author)
 
@@ -91,8 +93,9 @@
         var book_name = $("#book_name").val()
         var book_author = $("#book_author").val()
         var book_rate = $("#book_rate").val()
+        var book_linkAddress = $("#book_download").val("")
         var book_description = $("#book_description").val()
-        var callArgs = "[\"" + book_name + "\",\"" + book_author + "\",\"" + book_rate + "\",\"" + book_description + "\"]"
+        var callArgs = "[\"" + book_name + "\",\"" + book_author + "\",\"" + book_rate + "\",\""  + book_linkAddress + "\",\"" + book_description + "\"]"
 
         console.log(callArgs);
         serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
@@ -100,13 +103,13 @@
         });
 
         intervalQuery = setInterval(function () {
-            funcIntervalQuery(book_name, book_author, book_rate, book_description);
-        }, 5000);
+            funcIntervalQuery();
+        }, 10000);
     });
 
     var intervalQuery
 
-    function funcIntervalQuery(book_name, book_author, book_rate, book_description) {
+    function funcIntervalQuery() {
         nebPay.queryPayInfo(serialNumber)   //search transaction result from server (result upload to server by app)
             .then(function (resp) {
                 console.log("tx result: " + resp)   //resp is a JSON string
@@ -121,6 +124,7 @@
                 	$("#book_name_p").text("Book Name: " + book_name)
                 	$("#book_author_p").text("Author: " + book_author)
                 	$("#book_rate_p").text("Rate: " + book_rate)
+                    $("#book_download_p").val("Download Address: " + book_linkAddress)
                 	$("#book_description_p").text(book_description);
                 	$("#book_contributor_p").addClass("hide");
                 	$("#book_name_search").val("");
