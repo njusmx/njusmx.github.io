@@ -93,7 +93,7 @@
         var book_name = $("#book_name").val()
         var book_author = $("#book_author").val()
         var book_rate = $("#book_rate").val()
-        var book_linkAddress = $("#book_download").val("")
+        var book_linkAddress = $("#book_download").val()
         var book_description = $("#book_description").val()
         var callArgs = "[\"" + book_name + "\",\"" + book_author + "\",\"" + book_rate + "\",\""  + book_linkAddress + "\",\"" + book_description + "\"]"
 
