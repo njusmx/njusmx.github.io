@@ -1,9 +1,9 @@
 "use strict"
-    var dappAddress = "n1ruE8QEwX6Rvc5LBtAwLFrK4YTQWZgATnM";
+    var dappAddress = "n1xVtTogro9GtUBPQEBngu1avFScuRvXbZg";
     var nebulas = require("nebulas"),
         Account = nebulas.Account,
         neb = new nebulas.Neb();
-    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
+    neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
 
     // 搜索功能: 查找Super-Dictionary 中有没有该词条
     $("#search_book").click(function(){
@@ -43,7 +43,7 @@
             $("#book_name").val("");
             $("#book_author").val("");
             $("#book_rate").val("");
-            $("#book_download").val(""); $("#book_download").val("")
+            $("#book_download").val("");
             $("#book_description").val("");
         } else{
             //if result is not null, then it should be "return value" or "error message"
@@ -61,7 +61,7 @@
                 $("#book_name_p").text("Book Name: " + result.key)
                 $("#book_author_p").text("Author: " + result.writer)
                 $("#book_rate_p").text("Rate: " + result.rate)
-                $("#book_download_p").val("Download Address: " + result.linkAddress)
+                $("#book_download_p").text("Download Address: " + result.linkAddress)
                 $("#book_description_p").text(result.description);
                 $("#book_contributor_p").text("Contributed By: " + result.author)
 
@@ -94,6 +94,7 @@
         var book_author = $("#book_author").val()
         var book_rate = $("#book_rate").val()
         var book_linkAddress = $("#book_download").val()
+        console.log("BOOK ADDRESS:" + book_linkAddress);
         var book_description = $("#book_description").val()
         var callArgs = "[\"" + book_name + "\",\"" + book_author + "\",\"" + book_rate + "\",\""  + book_linkAddress + "\",\"" + book_description + "\"]"
 
@@ -103,13 +104,13 @@
         });
 
         intervalQuery = setInterval(function () {
-            funcIntervalQuery();
+            funcIntervalQuery(book_name, book_author, book_rate, book_linkAddress, book_description);
         }, 10000);
     });
 
     var intervalQuery
 
-    function funcIntervalQuery() {
+    function funcIntervalQuery(book_name, book_author, book_rate, book_linkAddress, book_description) {
         nebPay.queryPayInfo(serialNumber)   //search transaction result from server (result upload to server by app)
             .then(function (resp) {
                 console.log("tx result: " + resp)   //resp is a JSON string
@@ -124,7 +125,10 @@
                 	$("#book_name_p").text("Book Name: " + book_name)
                 	$("#book_author_p").text("Author: " + book_author)
                 	$("#book_rate_p").text("Rate: " + book_rate)
-                    $("#book_download_p").val("Download Address: " + book_linkAddress)
+
+                    // console.log("=======BOOK ADDRESS: " + book_linkAddress + "=========");
+
+                    $("#book_download_p").text("Download Address: " + book_linkAddress)
                 	$("#book_description_p").text(book_description);
                 	$("#book_contributor_p").addClass("hide");
                 	$("#book_name_search").val("");
