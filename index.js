@@ -1,9 +1,9 @@
 "use strict"
-    var dappAddress = "n1xVtTogro9GtUBPQEBngu1avFScuRvXbZg";
+    var dappAddress = "n1sVyZibojfY8h2AKfuC9uw1azrjDyHPUkC";
     var nebulas = require("nebulas"),
         Account = nebulas.Account,
         neb = new nebulas.Neb();
-    neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
+    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
 
     // 搜索功能: 查找Super-Dictionary 中有没有该词条
     $("#search_book").click(function(){
@@ -84,6 +84,7 @@
     var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
     var nebPay = new NebPay();
     var serialNumber
+    var callbackUrl = NebPay.config.mainnetUrl;
 
     $("#push_book").click(function() {
 
@@ -100,7 +101,8 @@
 
         console.log(callArgs);
         serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
-            listener: cbPush        //设置listener, 处理交易返回信息
+            listener: cbPush,       //设置listener, 处理交易返回信息
+            callback: callbackUrl
         });
 
         intervalQuery = setInterval(function () {
@@ -111,7 +113,10 @@
     var intervalQuery
 
     function funcIntervalQuery(book_name, book_author, book_rate, book_linkAddress, book_description) {
-        nebPay.queryPayInfo(serialNumber)   //search transaction result from server (result upload to server by app)
+        var options = {
+            callback: callbackUrl
+        }
+        nebPay.queryPayInfo(serialNumber,options)   //search transaction result from server (result upload to server by app)
             .then(function (resp) {
                 console.log("tx result: " + resp)   //resp is a JSON string
                 var respObject = JSON.parse(resp)
@@ -144,4 +149,11 @@
 
     function cbPush(resp) {
         console.log("response of push: " + JSON.stringify(resp))
+        var respString = JSON.stringify(resp);
+        if(respString.search("rejected by user") !== -1){
+            clearInterval(intervalQuery)
+            alert(respString)
+        }else if(respString.search("txhash") !== -1){
+            //alert("wait for tx result: " + resp.txhash)
+        }
     }
