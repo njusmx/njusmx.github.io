@@ -107,7 +107,7 @@
 
         intervalQuery = setInterval(function () {
             funcIntervalQuery(book_name, book_author, book_rate, book_linkAddress, book_description);
-        }, 10000);
+        }, 15000);
     });
 
     var intervalQuery
